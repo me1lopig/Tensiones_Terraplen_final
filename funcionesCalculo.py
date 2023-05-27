@@ -67,22 +67,6 @@ def datos_terraplen():
     
     return a,b,h,pe*h,ax,incrx,incrz
 
-def datos_rectangular():
-        # importacion de los datos del terraplen
-    # desde la hoja excel
-    libro = openpyxl.load_workbook('datos_rectangular.xlsx')
-    hoja = libro.active 
-
-    # datos de la carga
-    b=hoja.cell(row=2, column=1).value # ancho de banda
-    q=hoja.cell(row=2, column=2).value # carga 
-    
-    # datos del mallado de cálculo
-    ax=hoja.cell(row=2, column=3).value # ancho de banda
-    incrx=hoja.cell(row=2, column=4).value # incremento de x
-    incrz=hoja.cell(row=2, column=5).value # incremento de z
-    
-    return b,q,ax,incrx,incrz
 
 def datos_terreno():
 
@@ -164,21 +148,6 @@ def tension_terraplen(a,b,q,x,z):
 
     return tensionz,tensionx,tensionxz
 
-def tension_rectangular(b,q,x,z):
-    # b es el ancho de la carga
-    # q es la carga
-    # x,z son las coordenadas donde se calulan las tensiones
-    # calculos de los angulos
-    # los valores se calculan desde el centro de la carga
-    delta=np.arctan((x-b/2)/z)
-    alfa=np.arctan((x+b/2)/z)-delta
-    # cálculo de las tensiones
-    tensionz=(q/np.pi)*(alfa+np.sin(alfa)*np.cos(alfa+2*delta))
-    tensionx=(q/np.pi)*(alfa-np.sin(alfa)*np.cos(alfa+2*delta))
-    tensionxz=(q/np.pi)*(np.sin(alfa)*np.cos(alfa+2*delta))
-
-    return tensionz,tensionx,tensionxz
-    
 
 def asiento_elastico(cotas,z,hi,E,poisson,tensionx,tensionz):
     # calculo de aientos para un estado bidimensional de tensiones
