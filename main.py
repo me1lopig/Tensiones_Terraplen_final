@@ -18,30 +18,15 @@ import numpy as np # libería para cálculos matematicos
 
 # llamada a librerias definidas
 import funcionesCalculo as ft # libreria de funciones de cálculo
-import menu
-
-
-# se cargan la funcion de menu
-tipo_calculo=menu.menu_entrada()
-# hay un función de menu visual de forma experimental 
 
 
 # importacion de datos del terreno
 espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos=ft.datos_terreno()
 
-# selección del tipo de cálculo a realizar
-if tipo_calculo==1:
-    # importación de los datos del terraplen y del mallado obtenido de la excel datos_terraplen.xlsx
-    a,b,h,q,ax,incrx,incrz=ft.datos_terraplen()
-elif tipo_calculo==2:
-    # importación de los datos del terraplen y del mallado obtenido de la excel datos_terraplen.xlsx
-    b,q,ax,incrx,incrz=ft.datos_rectangular()
-    a=0
-    h=1
-else:
-    print('No se realiza ningún cálculo')
-    print('Se sale del programa')
-    exit()# salida del programa
+
+# importación de los datos del terraplen y del mallado obtenido de la excel datos_terraplen.xlsx
+a,b,h,q,ax,incrx,incrz=ft.datos_terraplen()
+
 
 
 # creación del directorio de trabajo para guardar resultados
