@@ -51,13 +51,7 @@ xarray=0
 for x in xcoord:
     zarray=0
     for z in zcoord:
-        if tipo_calculo==1:
-            tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z)
-            # llamada a la funcion de tensiones de carga terraplén
-        elif tipo_calculo==2:
-            # llamada a carga de tipo retangular
-            tensionz,tensionx,tensionxz=ft.tension_rectangular(b,q,x,z)    
-
+        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z)    
         # tensiones naturales del terreno verticales y horizontales
         #tension_z_0=ft.tension_total(z,cotas,pe_saturado,pe_seco,nivel_freatico)
         
