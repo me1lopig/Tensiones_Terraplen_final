@@ -84,8 +84,11 @@ for tG in tipo_Grafica:
     ft.graficos_tensiones(xcoord,zcoord,tension_z,directorio,'Tension z',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_x,directorio,'Tension x',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_xz,directorio,'Tensión xz',tG,a,b,h)
-    ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension terreno_z',tG,a,b,h)
+    #ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension terreno_z',tG,a,b,h)
 
 
 # graficado de cálculo de asientos
 ft.grafico_asientos(xcoord,asiento,directorio,'asientos')
+
+# emisión del informe de resultados
+ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos)
