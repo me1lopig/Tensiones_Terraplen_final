@@ -28,7 +28,6 @@ espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,
 a,b,h,q,ax,incrx,incrz=ft.datos_terraplen()
 
 
-
 # creación del directorio de trabajo para guardar resultados
 directorio=ft.crea_directorio()
 

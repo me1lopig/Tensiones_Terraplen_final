@@ -13,8 +13,6 @@
     # asiento_consolidación, calcula al asiento por consolidación
     # parametro_terreno, obtiene cualquier parámetro del terreno en función de la profundidad
     # n_freatico, calcula si a una profundidad existe nivel freático
-    # tension_terreno, tension natural del terreno, en revisión
-    # tension_total, del terreno
     # tension_vertical_terreno, del terreno
     # guardar_docx_datos, se guarda un resumen de los datos y resultados en formato word
     # guardar_xlxs_tensiones, guerda en formato excel los resultados de los cálculos de las tensiones creados
@@ -210,6 +208,27 @@ def tension_vertical_terreno(z_terreno,cotas,pe_saturado,pe_seco,nf):
         tension_z+=pe*0.10 # tension vertical
 
     return tension_z
+
+def tension_vertical_terreno_2(z_terreno,cotas,pe_saturado,pe_seco,nf):
+    # calculo por suma de varios tramos del terreno
+    # cálculo de la tension total del terreno
+    # se consideran espesores de 0,10 m se puede ajustar a menores intervalos para más precisión
+
+    tension_z=0
+    for zi in np.arange(0,z_terreno,0.10):
+        # se toman valores cada 10 cm 
+        if zi<nf:
+            pe=pe_seco[parametro_terreno(cotas,zi)]
+        else:
+             pe=pe_saturado[parametro_terreno(cotas,zi)]-9.81
+        tension_z+=pe*0.10 # tension vertical
+
+    return tension_z
+
+
+
+
+
 
 
 
