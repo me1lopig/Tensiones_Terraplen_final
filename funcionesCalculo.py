@@ -6,7 +6,6 @@
 # Listado de funciones (revisar)
     # crea_directorio(), genera el directorio de trabajo para alojar los archivos de proyecto
     # datos_terraplen, importa los datos de la carga del terraplen y de la malla de cálculo
-    # datos_rectangular, importa los datos de la carga rectangular
     # datos_terreno, importa de una hoja excel los datos del terreno
     # tension_terraplen, calcula las tensiones, (x,z,xz) del terreno
     # tension_rectangular, calcula las tensiones (x,z,xz) de una carga rectanguar infinita
@@ -141,7 +140,7 @@ def tension_terraplen(a,b,q,x,z):
     r_1b=np.sqrt(np.power(2*b-x-a,2)+np.power(z,2))
     r_22=np.power(b-x,2)+np.power(z,2)
 
-    # cálculos de las tensiones en x,z,xz
+    # cálculos de los incrementos de tensiones en x,z,xz
     tensionz=(q/np.pi)*((beta_a+x*alfa_a/a-z*(x-b)/r_22)+(beta_b+(2*b-x)*alfa_b/a-z*(b-x)/r_22))
     tensionx=(q/np.pi)*((beta_a+x*alfa_a/a+z*(x-b)/r_22+2*z*np.log(r_1a/r_oa)/a)+beta_b+alfa_b*(2*b-x)/a+z*(b-x)/r_22+2*z*np.log(r_1b/r_ob)/a)
     tensionxz=-(q/np.pi)*(z*(alfa_a+alfa_b)/a-2*np.power(z,2)/r_22)
@@ -151,11 +150,16 @@ def tension_terraplen(a,b,q,x,z):
 
 def asiento_elastico(cotas,z,hi,E,poisson,tensionx,tensionz):
     # calculo de aientos para un estado bidimensional de tensiones
-    # se calcula para un valor de z determinado
+    # se calcula para un valor de z determinado, para más valores incluirlo en un bucle
     # los valores en cm
+
+    # versión teniendo en cuenta el efecto tridimensional
     asiento=-hi*(tensionz-poisson[parametro_terreno(cotas,z)]*tensionx)/E[parametro_terreno(cotas,z)]
+
+    # teniendo en cuenta que no hay efecto tridimensional
     #asiento=-hi*(tensionz)/E[parametro_terreno(cotas,z)]
-    # se pone el valor negativo
+
+    # se pone el valor negativo suponiendo el valor negativo vertical
 
     return asiento
 
@@ -170,6 +174,7 @@ def asiento_consolidacion():
 def parametro_terreno(cotas,zt):
     # esta funcion localiza el parámetro del terreno para una z determinada
     # se parte de los valores discretos tomados de la excel de datos_terreno.xlsx
+    # sirve para cualquier parámetro del terreno
 
     for z in np.arange(len(cotas)-1):
         cota_superior=cotas[z]
@@ -178,10 +183,12 @@ def parametro_terreno(cotas,zt):
             break
     return z+1
 
+
+
 def n_freatico(nivel_freatico,z):
     # función para calcular el nivel freático de forma continua
     # indica si un valor del terreno está o no bajo el nf
-    # devuelve el valor de z o un 0 
+    # devuelve el valor de z o un 0 según se esté o no en la zona del nivel freático
     if z>=nivel_freatico:
         return z
     else:
@@ -191,7 +198,8 @@ def n_freatico(nivel_freatico,z):
 def tension_vertical_terreno(z_terreno,cotas,pe_saturado,pe_seco,nf):
     # calculo por suma de varios tramos del terreno
     # cálculo de la tension total del terreno
-    # se consideran espesores de 0,10 m
+    # se consideran espesores de 0,10 m se puede ajustar a menores intervalos para más precisión
+
     tension_z=0
     for zi in np.arange(0,z_terreno,0.10):
         # se toman valores cada 10 cm 
@@ -206,8 +214,8 @@ def tension_vertical_terreno(z_terreno,cotas,pe_saturado,pe_seco,nf):
 
 
 def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
-    # creación de un informe con los datos de entrada 
-    # y de resultados
+    # creación de un informe con los datos de entrada y los resultados en formato  .docx
+    # 
     
     document = Document()
     # Añadimos un titulo al documento, a nivel 0
@@ -244,6 +252,8 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
 
 
     # Tabla de datos del terreno
+    # a variar según se incrementa el numero de parámetros a tener en cuenta en los cálculos 
+
     document.add_heading('Datos del terreno ', level=1)
     data = (('UG-01', 12), ('UG-02', 5), ('UG-03', 12))
 
