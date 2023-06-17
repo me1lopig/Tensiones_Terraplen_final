@@ -203,37 +203,10 @@ def n_freatico(nivel_freatico,z):
         return 0
 
 
-def tension_vertical_terreno(z_terreno,cotas,pe_saturado,pe_seco,nf):
-    # calculo por suma de varios tramos del terreno
-    # cálculo de la tension total del terreno
-    # se consideran espesores de 0,10 m se puede ajustar a menores intervalos para más precisión
 
-    tension_z=0
-    for zi in np.arange(0,z_terreno,0.10):
-        # se toman valores cada 10 cm 
-        if zi<nf:
-            pe=pe_seco[parametro_terreno(cotas,zi)]
-        else:
-             pe=pe_saturado[parametro_terreno(cotas,zi)]-9.81
-        tension_z+=pe*0.10 # tension vertical
 
-    return tension_z
 
-def tension_vertical_terreno_2(z_terreno,cotas,pe_saturado,pe_seco,nf):
-    # calculo por suma de varios tramos del terreno
-    # cálculo de la tension total del terreno
-    # se consideran espesores de 0,10 m se puede ajustar a menores intervalos para más precisión
 
-    tension_z=0
-    for zi in np.arange(0,z_terreno,0.10):
-        # se toman valores cada 10 cm 
-        if zi<nf:
-            pe=pe_seco[parametro_terreno(cotas,zi)]
-        else:
-             pe=pe_saturado[parametro_terreno(cotas,zi)]-9.81
-        tension_z+=pe*0.10 # tension vertical
-
-    return tension_z
 
 
 
