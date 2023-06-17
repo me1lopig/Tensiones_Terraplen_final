@@ -14,6 +14,8 @@
     # parametro_terreno, obtiene cualquier parámetro del terreno en función de la profundidad
     # n_freatico, calcula si a una profundidad existe nivel freático
     # tension_vertical_terreno, del terreno
+
+
     # insertar_valor, inserta un valor de forma ordenada dentro de una lista
     # guardar_docx_datos, se guarda un resumen de los datos y resultados en formato word
     # guardar_xlxs_tensiones, guerda en formato excel los resultados de los cálculos de las tensiones creados
