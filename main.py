@@ -14,7 +14,7 @@
 
 
 # llamada a las librerias
-import numpy as np # libería para cálculos matematicos
+import numpy as np # librería para cálculos matematicos
 
 # llamada a librerias definidas
 import funcionesCalculo as ft # libreria de funciones de cálculo

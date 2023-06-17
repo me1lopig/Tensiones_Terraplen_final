@@ -1,21 +1,20 @@
-# libreria para el cálculo de tensiones y asientos bajo la cargas 
-# cargas contempladas
-    # Terraplen
-    # Rectangulares
 
-# Listado de funciones (revisar)
+# Libreria de funciones usadas en los cálculos 
+
+# Listado de funciones (actualizar según se añaden funciones)
     # crea_directorio(), genera el directorio de trabajo para alojar los archivos de proyecto
     # datos_terraplen, importa los datos de la carga del terraplen y de la malla de cálculo
     # datos_terreno, importa de una hoja excel los datos del terreno
     # tension_terraplen, calcula las tensiones, (x,z,xz) del terreno
-    # tension_rectangular, calcula las tensiones (x,z,xz) de una carga rectanguar infinita
     # asiento_elastico, calcula el asiento elástico del terreno
     # asiento_consolidación, calcula al asiento por consolidación
     # parametro_terreno, obtiene cualquier parámetro del terreno en función de la profundidad
     # n_freatico, calcula si a una profundidad existe nivel freático
-    # tension_vertical_terreno, del terreno
-
-
+    # insertar_valor inserta un valor en una lista y la ordena con el nuevo valor
+        # es función auxiliar de presion_total
+    # obtener_maximo_menor calculamos el valor de la cota inferior del estrato superior más cercano a la cota que se introduce
+        # es función  auxiliar de presion_total
+    # presion_total, calcula la presión total en un punto del terreno
     # insertar_valor, inserta un valor de forma ordenada dentro de una lista
     # guardar_docx_datos, se guarda un resumen de los datos y resultados en formato word
     # guardar_xlxs_tensiones, guerda en formato excel los resultados de los cálculos de las tensiones creados
@@ -179,6 +178,7 @@ def asiento_consolidacion():
     
     return 'En construcción'
 
+
 def parametro_terreno(cotas,zt):
     # esta funcion localiza el parámetro del terreno para una z determinada
     # se parte de los valores discretos tomados de la excel de datos_terreno.xlsx
@@ -201,6 +201,72 @@ def n_freatico(nivel_freatico,z):
         return z
     else:
         return 0
+
+
+# funciones auxiliares para el cálculo de la presion total
+
+def insertar_valor(lista, valor):
+    # funcion para insertar la cota en la lista de cotas y ordenarla
+    lista_mod=[] # se evita alterar la lista original
+    lista_mod=lista.copy()
+    lista_mod.append(valor)  # Agrega el valor a la lista
+    lista_mod.sort()         # Ordena la lista en orden ascendente
+    return lista_mod
+
+
+def obtener_maximo_menor(lista, valor):
+    # calculamos el valor de la cota inferior del estrato superior 
+    # más cercano a la cota que se introduce
+    maximo_menor = max(filter(lambda x: x <= valor, lista))
+    return maximo_menor
+
+
+
+def presion_total(cotas,valor_nf,pe_saturado,pe_seco,valor_cota):
+    
+    # cotas es la lista de cotas
+    # pe_saturado, lista de pesos específicos saturados
+    # pe_seco.lista de pesos específicos secos
+    # nf es la profundidad del nivel freático
+    # z es la profundidad a la que se va a calcular la presión total
+    
+    
+    lista_cotas = cotas.copy() # se copia la lista de las cotas para no alterarla
+
+    #lista ordenada contiene la lista de las cotas y la cota hasta la que se quiere calcular las tensiones
+    lista_valores = insertar_valor(lista_cotas, valor_nf)
+    
+    # resultado es el valor de la cota inmediatamente anterior a la que queremos calcular
+    resultado = obtener_maximo_menor(lista_valores, valor_cota)
+    
+    
+    # calculo del estrato del fondo
+    peso_saturado=pe_saturado[ft.parametro_terreno(cotas,valor_cota)] # peso especifico saturado
+    peso_seco=pe_seco[ft.parametro_terreno(cotas, valor_cota)] # peso especifico seco
+    
+    # cálculo de las presiones totales y efectivas, inicio de valores
+    peso=peso_seco if valor_cota<=valor_nf else peso_saturado
+    presion_total=(valor_cota-resultado)*peso
+    
+    # resto de estratos
+    for j in range(lista_valores.index(resultado),0,-1):
+        espesor=lista_valores[j]-lista_valores[j-1] # espesor del estrato
+        peso_saturado=pe_saturado[ft.parametro_terreno(cotas,lista_valores[j])] # peso especifico saturado
+        peso_seco=pe_seco[ft.parametro_terreno(cotas,lista_valores[j])] # peso especifico seco
+        posicion=lista_valores[j] # indica la cota del final del nivel
+    
+        # sumatoria de las presiones
+        if (posicion<=valor_nf):
+            peso=peso_seco
+        else:
+            peso=peso_saturado
+    
+        presion_total=presion_total+espesor*peso
+    
+    return presion_total
+
+
+
 
 
 
