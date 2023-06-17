@@ -20,6 +20,8 @@
     # guardar_xlxs_tensiones, guerda en formato excel los resultados de los cálculos de las tensiones creados
         # por la carga del terraplén, en x, z, xz
     # guardar_xlxs_asientos, guarda en excel los resultados de los cálculos de los asientos
+    
+    # ploteado_tensiones_normales, obtiene la grafica de tensiones normales totales
     # graficos_tensiones, guarda los graficos de las tensiones producidas por el terraplén, en contínuo e isolínea
     # graficos_asientos, guarda la gráfica de los asientos del terraplén en el ancho de banda
 
@@ -268,19 +270,6 @@ def presion_total(cotas,valor_nf,pe_saturado,pe_seco,valor_cota):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
     # creación de un informe con los datos de entrada y los resultados en formato  .docx
     # 
@@ -391,6 +380,32 @@ def guardar_xlsx_asientos(xcoord,array_datos,directorio,nombre_archivo):
     # se crea un directorio para calculo realizado
 
     wb.save(directorio+'/'+nombre_archivo+'.xlsx')
+
+
+def ploteado_tensiones_normales(cotas,nivel_freatico,pe_saturado,pe_seco):
+    # función de ploteado de la ley de tensiones normales del terreno
+
+    lista_valores = insertar_valor(cotas, nivel_freatico)
+    # vectores a plotear 
+    cota=[]
+    presion=[]
+    
+    # generación de los vectores
+    for z in lista_valores:
+        valor_presion=presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
+        cota.append(z)
+        presion.append(valor_presion)
+
+    # representación grafica de la ley de tensiones
+    plt.plot(presion,cota)
+    plt.gca().invert_yaxis()
+    plt.title('Presiones Totales en el terreno')
+    plt.xlabel('Presion [kN/m2]')
+    plt.ylabel('Profundidad [m]')
+    plt.show()  
+
+
+
 
 
 def graficos_tensiones(xcoord,zcoord,tension,directorio,titulo,tipo,a,b,h):
