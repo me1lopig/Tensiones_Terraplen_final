@@ -50,9 +50,9 @@ xarray=0
 for x in xcoord:
     zarray=0
     for z in zcoord:
-        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z)    
+        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones
         # tensiones naturales del terreno verticales y horizontales
-        #tension_z_0=ft.tension_total(z,cotas,pe_saturado,pe_seco,nivel_freatico)
+        #tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
         
         # construcción de las matrices de datos
         tension_z[zarray,xarray]=tensionz # tensiones normales en z
