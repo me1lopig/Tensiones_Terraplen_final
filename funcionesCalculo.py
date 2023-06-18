@@ -382,30 +382,6 @@ def guardar_xlsx_asientos(xcoord,array_datos,directorio,nombre_archivo):
     wb.save(directorio+'/'+nombre_archivo+'.xlsx')
 
 
-def ploteado_tensiones_normales(cotas,nivel_freatico,pe_saturado,pe_seco):
-    # función de ploteado de la ley de tensiones normales del terreno
-
-    lista_valores = insertar_valor(cotas, nivel_freatico)
-    # vectores a plotear 
-    cota=[]
-    presion=[]
-    
-    # generación de los vectores
-    for z in lista_valores:
-        valor_presion=presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
-        cota.append(z)
-        presion.append(valor_presion)
-
-    # representación grafica de la ley de tensiones
-    plt.plot(presion,cota)
-    plt.gca().invert_yaxis()
-    plt.title('Presiones Totales en el terreno')
-    plt.xlabel('Presion [kN/m2]')
-    plt.ylabel('Profundidad [m]')
-    plt.show()  
-
-
-
 
 
 def graficos_tensiones(xcoord,zcoord,tension,directorio,titulo,tipo,a,b,h):
@@ -463,3 +439,28 @@ def grafico_asientos(xcoord,asiento,directorio,titulo):
     #ax.set_aspect('equal', adjustable='box')
     plt.savefig(directorio+'/'+titulo+".png") # guardado de la imagen
     #plt.show()
+
+
+
+def ploteado_tensiones_normales(cotas,nivel_freatico,pe_saturado,pe_seco,directorio,titulo):
+    # función de ploteado de la ley de tensiones normales del terreno
+
+    lista_valores = insertar_valor(cotas, nivel_freatico)
+    # vectores a plotear 
+    cota=[]
+    presion=[]
+    
+    # generación de los vectores
+    for z in lista_valores:
+        valor_presion=presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
+        cota.append(z)
+        presion.append(valor_presion)
+
+    # representación grafica de la ley de tensiones
+    plt.plot(presion,cota)
+    plt.gca().invert_yaxis()
+    plt.title('Presiones Totales en el terreno')
+    plt.xlabel('Presion [kN/m2]')
+    plt.ylabel('Profundidad [m]')
+    plt.savefig(directorio+'/'+titulo+".png") # guardado de la imagen
+    #plt.show()  

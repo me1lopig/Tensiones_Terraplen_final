@@ -86,6 +86,9 @@ for tG in tipo_Grafica:
     ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension terreno_z',tG,a,b,h)
 
 
+# graficado de las tensiones naturales del terreno
+ft.ploteado_tensiones_normales(cotas,nivel_freatico,pe_saturado,pe_seco,directorio,"Tensiones normales")
+
 # graficado de cálculo de asientos
 ft.grafico_asientos(xcoord,asiento,directorio,'asientos')
 
