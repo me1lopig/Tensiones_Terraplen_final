@@ -236,7 +236,13 @@ def presion_total(cotas,valor_nf,pe_saturado,pe_seco,valor_cota):
     lista_cotas = cotas.copy() # se copia la lista de las cotas para no alterarla
 
     #lista ordenada contiene la lista de las cotas y la cota hasta la que se quiere calcular las tensiones
-    lista_valores = insertar_valor(lista_cotas, valor_nf)
+    # en caso de que ya esté el valor no se introduce de nuevo
+
+    if valor_nf not in lista_cotas: 
+        lista_valores = insertar_valor(lista_cotas, valor_nf)
+    else:
+        lista_valores=lista_cotas
+
     
     # resultado es el valor de la cota inmediatamente anterior a la que queremos calcular
     resultado = obtener_maximo_menor(lista_valores, valor_cota)
@@ -448,13 +454,13 @@ def ploteado_tensiones_normales(cotas,nivel_freatico,pe_saturado,pe_seco,directo
     lista_valores = insertar_valor(cotas, nivel_freatico)
     # vectores a plotear 
     cota=[]
-    presion=[]
+    presionTotal=[]
     
     # generación de los vectores
     for z in lista_valores:
         valor_presion=presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
         cota.append(z)
-        presion.append(valor_presion)
+        presionTotal.append(valor_presion)
 
     # representación grafica de la ley de tensiones
     plt.plot(presion,cota)
