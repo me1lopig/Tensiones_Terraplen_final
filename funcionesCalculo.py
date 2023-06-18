@@ -198,9 +198,9 @@ def parametro_terreno(cotas,zt):
 def n_freatico(nivel_freatico,z):
     # función para calcular el nivel freático de forma continua
     # indica si un valor del terreno está o no bajo el nf
-    # devuelve el valor de z o un 0 según se esté o no en la zona del nivel freático
+    # devuelve el valor de la altura de columna o un 0 según se esté o no en la zona del nivel freático
     if z>=nivel_freatico:
-        return z
+        return (z-nivel_freatico)
     else:
         return 0
 
@@ -209,8 +209,8 @@ def n_freatico(nivel_freatico,z):
 
 def insertar_valor(lista, valor):
     # funcion para insertar la cota en la lista de cotas y ordenarla
-    lista_mod=[] # se evita alterar la lista original
-    lista_mod=lista.copy()
+    lista_mod=[] 
+    lista_mod=lista.copy() # se evita alterar la lista original
     lista_mod.append(valor)  # Agrega el valor a la lista
     lista_mod.sort()         # Ordena la lista en orden ascendente
     return lista_mod
