@@ -41,6 +41,7 @@ tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x
 tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz
 tension_z_terreno=np.zeros((zcoord.size,xcoord.size)) # tension total inicial
 tension_z_efectiva=np.zeros((zcoord.size,xcoord.size)) # tension efectiva inicial
+resistencia_corte=np.zeros((zcoord.size,xcoord.size)) # resistencia al corte del terreno
 asientos_z=np.zeros((1,xcoord.size))
 
 
@@ -51,10 +52,15 @@ xarray=0
 for x in xcoord:
     zarray=0
     for z in zcoord:
+        # incrementos de tensiones provocados por la carga del terraplén
         tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones
-        # tensiones naturales del terreno verticales y horizontales
+
+        # tensiones naturales del terreno verticales
         tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
         tension_z_ef=tension_z_0-ft.n_freatico(nivel_freatico,z)*9.81
+
+        # cálculo de los valores de resistencia al corte del terreno
+        
         
         # construcción de las matrices de datos
         tension_z[zarray,xarray]=tensionz # tensiones normales en z
@@ -62,6 +68,8 @@ for x in xcoord:
         tension_xz[zarray,xarray]=tensionxz # tensiones cortantes en xz
         tension_z_terreno[zarray,xarray]=tension_z_0 # tension total del terreno en z
         tension_z_efectiva[zarray,xarray]=tension_z_ef # tension efectiva del terreno en z
+        #resistencia_corte[zarray,xarray]=tension_z_ef # resistencia al corte del terreno
+
         zarray+=1
          
          # aqui se calculará la parte de los asientos
