@@ -36,10 +36,10 @@ directorio=ft.crea_directorio()
 #xcoord=np.arange(ax,b+incrx,incrx)
 xcoord=np.arange(-(ax+b),ax+b+incrx,incrx) # cubre los dos bordes del terraplén
 zcoord=np.arange(0.0001,az+incrz,incrz)
-tension_z=np.zeros((zcoord.size,xcoord.size))
-tension_x=np.zeros((zcoord.size,xcoord.size))
-tension_xz=np.zeros((zcoord.size,xcoord.size))
-tension_z_terreno=np.zeros((zcoord.size,xcoord.size))
+tension_z=np.zeros((zcoord.size,xcoord.size)) # incremento de tensión en z
+tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x
+tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz
+tension_z_terreno=np.zeros((zcoord.size,xcoord.size)) # tension total inicial
 asientos_z=np.zeros((1,xcoord.size))
 
 
@@ -52,13 +52,13 @@ for x in xcoord:
     for z in zcoord:
         tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones
         # tensiones naturales del terreno verticales y horizontales
-        #tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
+        tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
         
         # construcción de las matrices de datos
         tension_z[zarray,xarray]=tensionz # tensiones normales en z
         tension_x[zarray,xarray]=tensionx # tensiones normales en x
         tension_xz[zarray,xarray]=tensionxz # tensiones cortantes en xz
-        #tension_z_terreno[zarray,xarray]=tension_z_0 # tension natural del terreno en z
+        tension_z_terreno[zarray,xarray]=tension_z_0 # tension natural del terreno en z
         zarray+=1
          
          # aqui se calculará la parte de los asientos
@@ -73,7 +73,7 @@ for x in xcoord:
 ft.guardar_xlsx_tensiones (xcoord,zcoord,tension_z,directorio,'Cal_Tension_z')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_x,directorio,'Cal_Tension_x')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_xz,directorio,'Cal_Tension_xz')
-#ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Cal_Tension_Total_z')
+ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Cal_Tension_Total_z')
 ft.guardar_xlsx_asientos(xcoord,asiento,directorio,'Cal_Asientos')
 
 
@@ -83,7 +83,7 @@ for tG in tipo_Grafica:
     ft.graficos_tensiones(xcoord,zcoord,tension_z,directorio,'Tension z',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_x,directorio,'Tension x',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_xz,directorio,'Tensión xz',tG,a,b,h)
-    #ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension terreno_z',tG,a,b,h)
+    ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension terreno_z',tG,a,b,h)
 
 
 # graficado de cálculo de asientos

@@ -243,8 +243,8 @@ def presion_total(cotas,valor_nf,pe_saturado,pe_seco,valor_cota):
     
     
     # calculo del estrato del fondo
-    peso_saturado=pe_saturado[ft.parametro_terreno(cotas,valor_cota)] # peso especifico saturado
-    peso_seco=pe_seco[ft.parametro_terreno(cotas, valor_cota)] # peso especifico seco
+    peso_saturado=pe_saturado[parametro_terreno(cotas,valor_cota)] # peso especifico saturado
+    peso_seco=pe_seco[parametro_terreno(cotas, valor_cota)] # peso especifico seco
     
     # cálculo de las presiones totales y efectivas, inicio de valores
     peso=peso_seco if valor_cota<=valor_nf else peso_saturado
@@ -253,8 +253,8 @@ def presion_total(cotas,valor_nf,pe_saturado,pe_seco,valor_cota):
     # resto de estratos
     for j in range(lista_valores.index(resultado),0,-1):
         espesor=lista_valores[j]-lista_valores[j-1] # espesor del estrato
-        peso_saturado=pe_saturado[ft.parametro_terreno(cotas,lista_valores[j])] # peso especifico saturado
-        peso_seco=pe_seco[ft.parametro_terreno(cotas,lista_valores[j])] # peso especifico seco
+        peso_saturado=pe_saturado[parametro_terreno(cotas,lista_valores[j])] # peso especifico saturado
+        peso_seco=pe_seco[parametro_terreno(cotas,lista_valores[j])] # peso especifico seco
         posicion=lista_valores[j] # indica la cota del final del nivel
     
         # sumatoria de las presiones
