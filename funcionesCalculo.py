@@ -16,6 +16,7 @@
         # es función  auxiliar de presion_total
     # presion_total, calcula la presión total en un punto del terreno
     # insertar_valor, inserta un valor de forma ordenada dentro de una lista
+    # resistencia_MC, calcula el valor de la resistencia al corte
     # guardar_docx_datos, se guarda un resumen de los datos y resultados en formato word
     # guardar_xlxs_tensiones, guerda en formato excel los resultados de los cálculos de las tensiones creados
         # por la carga del terraplén, en x, z, xz
@@ -273,6 +274,20 @@ def presion_total(cotas,valor_nf,pe_saturado,pe_seco,valor_cota):
     
     return presion_total
 
+
+
+def resistencia_MC(cotas,valor_presion,cohesion,fi,z):
+    # calculo de la resisencia al corte en un punto del terreno
+    # el valor de la presion puede ser en totales o en efectivas
+
+    # cálculo de la cohesión y el ángulo de rozamiento
+    cohesion_ter=cohesion[parametro_terreno(cotas,z)]
+    fi_ter=fi[parametro_terreno(cotas,z)]
+    
+    # valor de la resistencia al corte 
+    res_corte=cohesion_ter+valor_presion*np.tan(np.deg2rad(fi_ter))
+
+    return res_corte
 
 
 
