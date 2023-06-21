@@ -60,7 +60,7 @@ for x in xcoord:
         tension_z_ef=tension_z_0-ft.n_freatico(nivel_freatico,z)*9.81 # tensión efectiva
 
         # cálculo de los valores de resistencia al corte del terreno en efectivas
-        resistencia_corte=ft.resistencia_MC(cotas,tension_z_ef,cohesion,fi,z)
+        resistencia_cor=ft.resistencia_MC(cotas,tension_z_ef,cohesion,fi,z)
         
         # construcción de las matrices de datos
         tension_z[zarray,xarray]=tensionz # tensiones normales en z
@@ -68,7 +68,7 @@ for x in xcoord:
         tension_xz[zarray,xarray]=tensionxz # tensiones cortantes en xz
         tension_z_terreno[zarray,xarray]=tension_z_0 # tension total del terreno en z
         tension_z_efectiva[zarray,xarray]=tension_z_ef # tension efectiva del terreno en z
-        resistencia_corte[zarray,xarray]=resistencia_corte # resistencia al corte del terreno
+        resistencia_corte[zarray,xarray]=resistencia_cor # resistencia al corte del terreno
 
         zarray+=1
          
