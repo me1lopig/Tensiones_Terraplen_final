@@ -56,11 +56,11 @@ for x in xcoord:
         tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones
 
         # tensiones naturales del terreno verticales
-        tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z)
-        tension_z_ef=tension_z_0-ft.n_freatico(nivel_freatico,z)*9.81
+        tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z) # tensión total
+        tension_z_ef=tension_z_0-ft.n_freatico(nivel_freatico,z)*9.81 # tensión efectiva
 
-        # cálculo de los valores de resistencia al corte del terreno
-        resistencia_corte=8
+        # cálculo de los valores de resistencia al corte del terreno en efectivas
+        resistencia_corte=ft.resistencia_MC(cotas,tension_z_ef,cohesion,fi,z)
         
         # construcción de las matrices de datos
         tension_z[zarray,xarray]=tensionz # tensiones normales en z
@@ -68,7 +68,7 @@ for x in xcoord:
         tension_xz[zarray,xarray]=tensionxz # tensiones cortantes en xz
         tension_z_terreno[zarray,xarray]=tension_z_0 # tension total del terreno en z
         tension_z_efectiva[zarray,xarray]=tension_z_ef # tension efectiva del terreno en z
-        #resistencia_corte[zarray,xarray]=resistencia_corte # resistencia al corte del terreno
+        resistencia_corte[zarray,xarray]=resistencia_corte # resistencia al corte del terreno
 
         zarray+=1
          
@@ -86,6 +86,7 @@ ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_x,directorio,'Cal_Tension_x')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_xz,directorio,'Cal_Tension_xz')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Cal_Tension_Total_z')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_efectiva,directorio,'Cal_Tension_Efectiva_z')
+ft.guardar_xlsx_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte')
 ft.guardar_xlsx_asientos(xcoord,asiento,directorio,'Cal_Asientos')
 
 
@@ -97,6 +98,7 @@ for tG in tipo_Grafica:
     ft.graficos_tensiones(xcoord,zcoord,tension_xz,directorio,'Tensión xz',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension Total_z',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_z_efectiva,directorio,'Tension Efectiva_z',tG,a,b,h)
+    ft.graficos_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte',tG,a,b,h)
 
 
 # graficado de las tensiones naturales del terreno
