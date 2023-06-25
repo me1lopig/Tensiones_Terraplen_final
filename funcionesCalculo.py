@@ -41,13 +41,6 @@ from datetime import datetime
 
 # Grupo de funciones
 
-def insertar_valor(lista, valor):
-    # inserta de forma ordenada un valor en una lista
-    lista.append(valor)  # Agrega el valor a la lista
-    lista.sort()         # Ordena la lista en orden ascendente
-    return lista
-
-
 
 def crea_directorio():
     # creación del directorio de trabajo para guardar resultados
@@ -215,6 +208,7 @@ def insertar_valor(lista, valor):
     lista_mod.append(valor)  # Agrega el valor a la lista
     lista_mod.sort()         # Ordena la lista en orden ascendente
     return lista_mod
+
 
 
 def obtener_maximo_menor(lista, valor):
@@ -426,7 +420,10 @@ def graficos_tensiones(xcoord,zcoord,tension,directorio,titulo,tipo,a,b,h):
         plt.clabel(curvas, inline=1,fmt='%2.1f',fontsize=8) # etiquetas
     else:
         curvas=plt.contourf(X,-Z,tension,10)
-        plt.colorbar(curvas)
+        cbar=plt.colorbar(curvas) # leyenda del grafico
+        # Invertir el orden de la leyenda de valores
+   
+
     ax.set_aspect('equal', adjustable='box')
     #ax.invert_yaxis()
     plt.xlabel("x [m]")
