@@ -76,13 +76,18 @@ def datos_terreno():
     hoja = libro.active
 
     # importacion de variables del terreno
+    
+    # geometría de las capas
     espesor=[]
     cotas=[]
+    # valores físicos
     pe_seco=[]
     pe_saturado=[]
+    # valores elásticos
     E=[]
     poisson=[]
     tipo_datos=[]
+    # valores de resistencia
     cohesion=[]
     fi=[]
     # valores de compresibilidad por consolidacion
@@ -108,7 +113,7 @@ def datos_terreno():
         fi[0]=0
         cc.append(row[8].value)
         cc[0]=0
-        e0.append(row[8].value)
+        e0.append(row[9].value)
         e0[0]=0
 
 
