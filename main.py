@@ -81,7 +81,7 @@ for x in xcoord:
         asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
 
         # asiento por consolidación
-        #asiento_parcial+=ft.asiento_consolidacion(hi,cc,e0,t_efectiva,tensionz,cotas,x,z)
+        #asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,t_efectiva,tensionz,cotas,x,z)
 
     asiento.append(asiento_parcial)
     xarray+=1
