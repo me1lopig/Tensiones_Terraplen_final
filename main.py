@@ -75,10 +75,13 @@ for x in xcoord:
         # aqui se calculará la parte de los asientos
         # según los tipos de cálculos que se van a realizar
 
+        # cálculo de asientos
+        
         # asiento elástico
         asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
+
         # asiento por consolidación
-        #asiento_parcial+=ft.asiento_consolidacion(cotas,z,incrz,cc,e0,tension_z,tension_z_efectiva)
+        #asiento_parcial+=ft.asiento_consolidacion(hi,cc,e0,t_efectiva,tensionz,cotas,x,z)
 
     asiento.append(asiento_parcial)
     xarray+=1
