@@ -6,8 +6,10 @@
     # datos_terraplen, importa los datos de la carga del terraplen y de la malla de cálculo
     # datos_terreno, importa de una hoja excel los datos del terreno
     # tension_terraplen, calcula las tensiones, (x,z,xz) del terreno
+
     # asiento_elastico, calcula el asiento elástico del terreno
     # asiento_consolidación, calcula al asiento por consolidación
+
     # parametro_terreno, obtiene cualquier parámetro del terreno en función de la profundidad
     # n_freatico, calcula si a una profundidad existe nivel freático
     # insertar_valor inserta un valor en una lista y la ordena con el nuevo valor
@@ -171,13 +173,13 @@ def asiento_elastico(cotas,z,hi,E,poisson,tensionx,tensionz):
 
     return asiento
 
-def asiento_consolidacion():
+def asiento_consolidacion(hi,cc,e0,t_efectiva,tensionz,cotas,x,z):
     # calculo de aientos por consolidación
     # parametros de entrada 
-    # e0, Cc y los incrementos de tensiones por la sobre carga
-    # se debe de considerar las tres condiciones de OCR
-    
-    return 'En construcción'
+    # e0, Cc y los incrementos de tensiones por la sobre carga y las tensiones efectivas naturales
+    # se debe de considerar las tres condiciones de OCR, pero por ahora solo el caso de OCR=1
+    asiento=(hi*cc[parametro_terreno(cotas,z)]/(1+e0[parametro_terreno(cotas,z)]))*np.log10((t_efectiva+tensionz)/t_efectiva)
+    return asiento
 
 
 def parametro_terreno(cotas,zt):
