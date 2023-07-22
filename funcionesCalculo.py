@@ -178,7 +178,7 @@ def asiento_consolidacion(hi,cc,e0,t_efectiva,tensionz,cotas,x,z):
     # parametros de entrada 
     # e0, Cc y los incrementos de tensiones por la sobre carga y las tensiones efectivas naturales
     # se debe de considerar las tres condiciones de OCR, pero por ahora solo el caso de OCR=1
-    asiento=(hi*cc[parametro_terreno(cotas,z)]/(1+e0[parametro_terreno(cotas,z)]))*np.log10((t_efectiva+tensionz)/t_efectiva)
+    asiento=-(hi*cc[parametro_terreno(cotas,z)]/(1+e0[parametro_terreno(cotas,z)]))*np.log10((t_efectiva+tensionz)/t_efectiva)
     
     return asiento
 

@@ -35,7 +35,8 @@ directorio=ft.crea_directorio()
 # definicion e iniciación de las matrices y vectores para albergar los cálculos
 #xcoord=np.arange(ax,b+incrx,incrx)
 xcoord=np.arange(-(ax+b),ax+b+incrx,incrx) # cubre los dos bordes del terraplén
-zcoord=np.arange(0.0001,az+incrz,incrz)
+#zcoord=np.arange(0.0001,az+incrz,incrz)
+zcoord=np.arange(incrz,az+incrz,incrz)
 tension_z=np.zeros((zcoord.size,xcoord.size)) # incremento de tensión en z
 tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x
 tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz
@@ -78,10 +79,10 @@ for x in xcoord:
         # cálculo de asientos
         
         # asiento elástico
-        asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
+       #asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
 
         # asiento por consolidación
-        #asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,t_efectiva,tensionz,cotas,x,z)
+        asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
 
     asiento.append(asiento_parcial)
     xarray+=1
