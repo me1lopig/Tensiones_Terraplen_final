@@ -46,10 +46,14 @@ resistencia_corte=np.zeros((zcoord.size,xcoord.size)) # resistencia al corte del
 asientos_z=np.zeros((1,xcoord.size))
 
 
-# realización de los cálculos de tensiones y asientos bajo la carga del terraplén
+# datos de arranque
 asiento=[]
 asiento_parcial=0
+asiento_parcial_consolidacion=0
 xarray=0
+
+
+# realización de los cálculos de tensiones y asientos bajo la carga del terraplén
 for x in xcoord:
     zarray=0
     for z in zcoord:
@@ -79,10 +83,10 @@ for x in xcoord:
         # cálculo de asientos
         
         # asiento elástico
-       #asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
+        asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
 
         # asiento por consolidación
-        asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
+        #asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
 
     asiento.append(asiento_parcial)
     xarray+=1
