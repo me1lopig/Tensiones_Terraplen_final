@@ -17,7 +17,7 @@
 import numpy as np # librería para cálculos matematicos
 
 # llamada a librerias definidas
-import funcionesCalculo as ft # libreria de funciones de cálculo
+import funcionesCalculo as ft # libreria de funciones auxiliares y de cálculo
 
 
 # importacion de datos del terreno
@@ -46,9 +46,9 @@ resistencia_corte=np.zeros((zcoord.size,xcoord.size)) # resistencia al corte del
 asientos_z=np.zeros((1,xcoord.size))
 
 
-# datos de arranque
+# datos de arranque de los asientos del terreno
 asiento=[]
-asiento_parcial=0
+asiento_parcial_elastico=0
 asiento_parcial_consolidacion=0
 xarray=0
 
@@ -83,14 +83,14 @@ for x in xcoord:
         # cálculo de asientos
         
         # asiento elástico
-        asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
+        asiento_parcial_elastico+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
 
         # asiento por consolidación
-        #asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
+        #asiento_parcial_consolidacion+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
 
-    asiento.append(asiento_parcial)
+    asiento.append(asiento_parcial_elastico)
     xarray+=1
-    asiento_parcial=0 # se reinicia el asiento a cero para el siguiente cálculo
+    asiento_parcial_elastico=0 # se reinicia el asiento a cero para el siguiente cálculo
 
 
 # exportacion a una hoja excel de los cálculos realizados tensiones y asientos
