@@ -1,10 +1,10 @@
+#
+
+
+
+
+#
 # calculo de las tensiones y asientos en terraplenes para uso academico
-# version 02/10/2022
-# Germán López Pineda
-# Ingeniero de Caminos Canales y Puertos UGR
-# Master en Matemática Computacional UJI
-# Master en Ingeniería del Terreno UCO
-# Grupo de investigación RNM 244 Ingeniería Ambiental y Geofísica Universidad de Córdoba
 # Bibliografía
     # Shearing Stress and Surface Deflections due to Trapezoidal Loads D.L.Holl 
     # Poulos, H. G. and Davis, E. H. (1974). Elastic Solutions for Soil and Rock Mechanics, 1st Edition, New York, John Wiley & Sons, Inc
@@ -20,7 +20,7 @@ import numpy as np # librería para cálculos matematicos
 import funcionesCalculo as ft # libreria de funciones auxiliares y de cálculo
 
 
-# importacion de datos del terreno
+# importacion de datos del terreno del archivo datos_terreno.xlsx
 espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos=ft.datos_terreno()
 
 
@@ -37,16 +37,16 @@ directorio=ft.crea_directorio()
 xcoord=np.arange(-(ax+b),ax+b+incrx,incrx) # cubre los dos bordes del terraplén
 #zcoord=np.arange(0.0001,az+incrz,incrz)
 zcoord=np.arange(incrz,az+incrz,incrz)
-tension_z=np.zeros((zcoord.size,xcoord.size)) # incremento de tensión en z
-tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x
-tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz
-tension_z_terreno=np.zeros((zcoord.size,xcoord.size)) # tension total inicial
-tension_z_efectiva=np.zeros((zcoord.size,xcoord.size)) # tension efectiva inicial
-resistencia_corte=np.zeros((zcoord.size,xcoord.size)) # resistencia al corte del terreno
+tension_z=np.zeros((zcoord.size,xcoord.size)) # incremento de tensión en z de la carga del terraplen
+tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x de la carga del terraple
+tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz de la carga del terraple
+tension_z_terreno=np.zeros((zcoord.size,xcoord.size)) # tension total inicial del terreno
+tension_z_efectiva=np.zeros((zcoord.size,xcoord.size)) # tension efectiva inicial del terreno
+#resistencia_corte=np.zeros((zcoord.size,xcoord.size)) # resistencia al corte del terreno
 asientos_z=np.zeros((1,xcoord.size))
 
 
-# datos de arranque de los asientos del terreno
+# datos de arranque del cálculo los asientos del terreno
 asiento=[]
 asiento_parcial_elastico=0
 asiento_parcial_consolidacion=0
@@ -58,7 +58,7 @@ for x in xcoord:
     zarray=0
     for z in zcoord:
         # incrementos de tensiones provocados por la carga del terraplén
-        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones
+        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones prodeucidas por el terraplen
 
         # tensiones naturales del terreno verticales
         tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z) # tensión total
@@ -73,7 +73,7 @@ for x in xcoord:
         tension_xz[zarray,xarray]=tensionxz # tensiones cortantes en xz
         tension_z_terreno[zarray,xarray]=tension_z_0 # tension total del terreno en z
         tension_z_efectiva[zarray,xarray]=tension_z_ef # tension efectiva del terreno en z
-        resistencia_corte[zarray,xarray]=resistencia_cor # resistencia al corte del terreno
+        #resistencia_corte[zarray,xarray]=resistencia_cor # resistencia al corte del terreno
 
         zarray+=1
          
@@ -99,7 +99,7 @@ ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_x,directorio,'Cal_Tension_x')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_xz,directorio,'Cal_Tension_xz')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Cal_Tension_Total_z')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_efectiva,directorio,'Cal_Tension_Efectiva_z')
-ft.guardar_xlsx_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte')
+#ft.guardar_xlsx_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte')
 ft.guardar_xlsx_asientos(xcoord,asiento,directorio,'Cal_Asientos')
 
 
@@ -111,7 +111,7 @@ for tG in tipo_Grafica:
     ft.graficos_tensiones(xcoord,zcoord,tension_xz,directorio,'Tensión xz',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension Total_z',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_z_efectiva,directorio,'Tension Efectiva_z',tG,a,b,h)
-    ft.graficos_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte',tG,a,b,h)
+    #ft.graficos_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte',tG,a,b,h)
 
 
 # graficado de las tensiones naturales del terreno

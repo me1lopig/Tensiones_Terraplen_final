@@ -2,13 +2,14 @@
 # Libreria de funciones usadas en los cálculos 
 
 # Listado de funciones (actualizar según se añaden funciones)
+
     # crea_directorio(), genera el directorio de trabajo para alojar los archivos de proyecto
     # datos_terraplen, importa los datos de la carga del terraplen y de la malla de cálculo
     # datos_terreno, importa de una hoja excel los datos del terreno
     # tension_terraplen, calcula las tensiones, (x,z,xz) del terreno
 
     # asiento_elastico, calcula el asiento elástico del terreno
-    # asiento_consolidación, calcula al asiento por consolidación
+    # asiento_consolidación, calcula el asiento por consolidación
 
     # parametro_terreno, obtiene cualquier parámetro del terreno en función de la profundidad
     # n_freatico, calcula si a una profundidad existe nivel freático
@@ -99,7 +100,7 @@ def datos_terreno():
     for row in hoja.iter_rows():
         espesor.append(row[0].value)
         espesor[0]=0
-        az=sum(espesor)
+        az=sum(espesor) # vector de espesores
         nivel_freatico=hoja.cell(row=2, column=2).value
         pe_seco.append(row[2].value)
         pe_seco[0]=0
@@ -169,7 +170,7 @@ def asiento_elastico(cotas,z,hi,E,poisson,tensionx,tensionz):
     # teniendo en cuenta que no hay efecto tridimensional
     #asiento=-hi*(tensionz)/E[parametro_terreno(cotas,z)]
 
-    # se pone el valor negativo suponiendo el valor negativo vertical
+    # se pone el valor negativo suponiendo el valor vertical hacia abajo
 
     return asiento
 
@@ -370,6 +371,8 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
     document.save(directorio+'/'+'Info.docx')
 
 
+
+
 def guardar_xlsx_tensiones(xcoord,zcoord,array_datos,directorio,nombre_archivo):
 
     # guardado en excel de los resultados de los calculos de una matriz de datos
@@ -417,7 +420,7 @@ def graficos_tensiones(xcoord,zcoord,tension,directorio,titulo,tipo,a,b,h):
     plt.plot(x,y)
 
     # grafias de tipo contorno o isolineas
-    if tipo=='isolinea':
+    if tipo=='isolinea': # tipo isolinea
         # suelo del terraplen
         x = [min(xcoord),max(xcoord)]
         y=[0,0]
@@ -425,7 +428,7 @@ def graficos_tensiones(xcoord,zcoord,tension,directorio,titulo,tipo,a,b,h):
         # grafica de isolinea
         curvas=plt.contour(X,-Z,tension,10)
         plt.clabel(curvas, inline=1,fmt='%2.1f',fontsize=8) # etiquetas
-    else:
+    else: # tipo contorno
         curvas=plt.contourf(X,-Z,tension,10)
         cbar=plt.colorbar(curvas) # leyenda del grafico
         # Invertir el orden de la leyenda de valores
@@ -438,6 +441,8 @@ def graficos_tensiones(xcoord,zcoord,tension,directorio,titulo,tipo,a,b,h):
     ax.set_title(titulo+' [kN/m2]')
     plt.savefig(directorio+'/'+titulo+tipo+".png") # guardado de la imagen
     #plt.show()
+
+
 
 
 def grafico_asientos(xcoord,asiento,directorio,titulo):
