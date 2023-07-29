@@ -1,8 +1,9 @@
-# TFG
-
-
-
-
+# Nombre del TFG
+# Nombre alumno
+# EPS de Belmez
+#
+#
+#
 #
 # calculo de las tensiones y asientos en terraplenes para uso academico
 # Bibliografía

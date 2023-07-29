@@ -481,6 +481,7 @@ def grafico_asientos(xcoord,asiento,directorio,titulo):
 
 def ploteado_tensiones_normales(cotas,nivel_freatico,pe_saturado,pe_seco,directorio,titulo):
     # función de ploteado de la ley de tensiones normales del terreno
+    # esta funcion no se activa
 
     lista_valores = insertar_valor(cotas, nivel_freatico)
     # vectores a plotear 
