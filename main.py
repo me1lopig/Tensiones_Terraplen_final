@@ -1,4 +1,4 @@
-#
+# TFG
 
 
 
@@ -9,7 +9,7 @@
     # Shearing Stress and Surface Deflections due to Trapezoidal Loads D.L.Holl 
     # Poulos, H. G. and Davis, E. H. (1974). Elastic Solutions for Soil and Rock Mechanics, 1st Edition, New York, John Wiley & Sons, Inc
 # mallas muy densas hacen el cálculo lento 
-# recordar que Python es interpretado
+# recordar que Python es interpretado pero en cambio es multiplatafoma
 
 
 
@@ -21,7 +21,7 @@ import funcionesCalculo as ft # libreria de funciones auxiliares y de cálculo
 
 
 # importacion de datos del terreno del archivo datos_terreno.xlsx
-espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos=ft.datos_terreno()
+espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos,tipo_calculo=ft.datos_terreno()
 
 
 # importación de los datos del terraplen y del mallado obtenido de la excel datos_terraplen.xlsx
@@ -48,8 +48,7 @@ asientos_z=np.zeros((1,xcoord.size))
 
 # datos de arranque del cálculo los asientos del terreno
 asiento=[]
-asiento_parcial_elastico=0
-asiento_parcial_consolidacion=0
+asiento_parcial=0
 xarray=0
 
 
@@ -80,17 +79,30 @@ for x in xcoord:
         # aqui se calculará la parte de los asientos
         # según los tipos de cálculos que se van a realizar
 
-        # cálculo de asientos
+        # cálculo de asientos en funcion de la indicación en datos_terreno.xlsx 
+        # en lo que respecta al tipo de cálculo 
+        # E, e cálculo de tipo elástico
+        # C,c cálculo de tipo consolidación primaria para el caso de OCR=1
+        # los otros casos de consolidación no se contemplan en este Trabajo
+        
+        tipoCalculo=tipo_calculo[ft.parametro_terreno(cotas,z)]
+
+        if (tipoCalculo in ['e','E']):
+            asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
+        
+        if (tipoCalculo in ['c','C']):
+            asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
+
         
         # asiento elástico
-        asiento_parcial_elastico+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
+        #asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
 
         # asiento por consolidación
         #asiento_parcial_consolidacion+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
 
-    asiento.append(asiento_parcial_elastico)
+    asiento.append(asiento_parcial)
     xarray+=1
-    asiento_parcial_elastico=0 # se reinicia el asiento a cero para el siguiente cálculo
+    asiento_parcial=0 # se reinicia el asiento a cero para el siguiente cálculo
 
 
 # exportacion a una hoja excel de los cálculos realizados tensiones y asientos

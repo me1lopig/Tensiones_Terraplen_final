@@ -96,6 +96,11 @@ def datos_terreno():
     # valores de compresibilidad por consolidacion
     cc=[]
     e0=[]
+
+    # tipo de calculo a realizar 
+    # (E,e) de tipo elástico
+    # (C,c) de tipo consolidación
+    tipo_calculo=[]
    
     for row in hoja.iter_rows():
         espesor.append(row[0].value)
@@ -118,6 +123,8 @@ def datos_terreno():
         cc[0]=0
         e0.append(row[9].value)
         e0[0]=0
+        tipo_calculo.append(row[10].value)
+        tipo_calculo[0]=0
 
 
     for i in np.arange(len(espesor)):
@@ -127,7 +134,7 @@ def datos_terreno():
     for filas in hoja.iter_cols():
         tipo_datos.append(filas[0].value)
 
-    return espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos
+    return espesor,cotas,az,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos,tipo_calculo
 
 
 def tension_terraplen(a,b,q,x,z):
