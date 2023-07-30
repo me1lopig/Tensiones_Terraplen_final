@@ -1,5 +1,5 @@
 # Nombre del TFG
-# Nombre alumno
+# Nombre alumno Carloa Alexis Chirinos Celis
 # EPS de Belmez
 #
 #
@@ -81,6 +81,7 @@ for x in xcoord:
         # según los tipos de cálculos que se van a realizar
 
         # cálculo de asientos en funcion de la indicación en datos_terreno.xlsx 
+        # se puede realiza un cálculo con parámetros elásticos y con parámetros de consolidación
         # en lo que respecta al tipo de cálculo 
         # E, e cálculo de tipo elástico
         # C,c cálculo de tipo consolidación primaria para el caso de OCR=1
@@ -134,4 +135,5 @@ for tG in tipo_Grafica:
 ft.grafico_asientos(xcoord,asiento,directorio,'asientos')
 
 # emisión del informe de resultados
-ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos)
+#ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos)
+ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos,tipo_calculo)

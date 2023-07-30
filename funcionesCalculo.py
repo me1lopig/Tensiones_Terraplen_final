@@ -300,7 +300,7 @@ def resistencia_MC(cotas,valor_presion,cohesion,fi,z):
 
 
 
-def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
+def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos,tipo_calculo):
     # creación de un informe con los datos de entrada y los resultados en formato  .docx
     # 
     
@@ -317,6 +317,8 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
     # Para indicar subtitulo se indica el nivel 1
     document.add_heading('Cálculos realizados ', level=1)
     #document.add_paragraph('Los cálculos realizados son:')
+    document.add_paragraph('Tensiones totales en el terreno [kN/m2]', style='List Number')
+    document.add_paragraph('Tensiones efectivas en el terreno [kN/m2]', style='List Number')
     document.add_paragraph('Incremento de tensiones en x [kN/m2]', style='List Number')
     document.add_paragraph('Incremento de tensiones en xz [kN/m2]', style='List Number')
     document.add_paragraph('Incremento de tensiones en z [kN/m2]', style='List Number')
@@ -345,16 +347,21 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
     data = (('UG-01', 12), ('UG-02', 5), ('UG-03', 12))
 
     # encabezado de la tabla
-    # se ponen los encabezados sin colocar c ni fi en la tabla
-    table = document.add_table(rows=1, cols=len(tipo_datos[0:6])) # definición de la tabla
+    # se ponen los encabezados de los datos del archivo datos_terreno.xlsx
+    table = document.add_table(rows=1, cols=len(tipo_datos[0:11])) # definición de la tabla
     # encabezados de la tabla de datos
-    for dato in np.arange(len(tipo_datos[0:6])):
+    for dato in np.arange(len(tipo_datos[0:11])):
         table.rows[0].cells[dato].text = tipo_datos[dato]
     
+    
+    # Relleno de los elementos de la tabla 
     for prod, numbr in data:
         row_cells = table.add_row().cells
         row_cells[0].text = prod
         row_cells[1].text = str(numbr)
+
+
+
 
     # imágenes de resultados de los cálculos
     # se localizan las imágenes del directorio que sean *.png y se meten en unna lista
@@ -375,7 +382,7 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos):
         document.add_picture(directorio+'/'+imagenes[index],width=Cm(12))
 
     # Guardado del archivo con la información
-    document.save(directorio+'/'+'Info.docx')
+    document.save(directorio+'/'+'Informe.docx')
 
 
 
