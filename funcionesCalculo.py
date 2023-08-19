@@ -331,6 +331,7 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freati
     document.add_paragraph("Valor de la altura del terraplén {0:0.2f} m".format(h), style='List Bullet')
     document.add_paragraph("Peso específico del relleno de terraplén {0:0.2f} kN/m3".format(q/h), style='List Bullet')
     document.add_paragraph("Valor de la carga de tierras  {0:0.2f} kN/m2".format(q), style='List Bullet')
+    document.add_paragraph("Profundidad del nivel freático  {0:0.2f} m".format(nivel_freatico), style='List Bullet')
 
     # Características del mallado de cálculo
     document.add_heading('Datos del mallado ', level=1)
@@ -344,7 +345,7 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freati
     # a variar según se incrementa el numero de parámetros a tener en cuenta en los cálculos 
 
     document.add_heading('Datos del terreno ', level=1)
-    data = (('UG-01', 12), ('UG-02', 5), ('UG-03', 12))
+    #data = (('UG-01', 12), ('UG-02', 5), ('UG-03', 12))
 
     # encabezado de la tabla
     # se ponen los encabezados de los datos del archivo datos_terreno.xlsx
@@ -354,14 +355,25 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freati
         table.rows[0].cells[dato].text = tipo_datos[dato]
     
     
+
+
+    
     # Relleno de los elementos de la tabla 
-    for prod, numbr in data:
-        row_cells = table.add_row().cells
-        row_cells[0].text = prod
-        row_cells[1].text = str(numbr)
+    #for prod, numbr in data:
+        #row_cells = table.add_row().cells
+        #row_cells[0].text = prod
+        #row_cells[1].text = str(num)
+  
+
+ # Relleno de los elementos de la tabla 
+
+  
 
 
 
+
+# Añadimos un titulo al documento, a nivel 0
+    document.add_heading('Resultados de los cálculos', 0)
 
     # imágenes de resultados de los cálculos
     # se localizan las imágenes del directorio que sean *.png y se meten en unna lista
