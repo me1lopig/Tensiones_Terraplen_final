@@ -297,7 +297,7 @@ def resistencia_MC(cotas,valor_presion,cohesion,fi,z):
 
 
 
-def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico):
+def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico,asiento_max):
     # creación de un informe con los datos de entrada y los resultados en formato  .docx
     # 
     
@@ -397,6 +397,11 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico):
     # carga de la imagen de asientos
     document.add_heading('Asientos', 3) 
     document.add_picture(directorio+'/'+imagenes[-1],width=Cm(12))
+    
+    # representación del asiento máximo
+    numero_formateado = "{:.4f}".format(asiento_max)
+    paragraph = document.add_paragraph("Asiento máximo "+numero_formateado+" m")
+
     
     # carga del resto de imágenes
     for index in np.arange(0,len(imagenes)-1):

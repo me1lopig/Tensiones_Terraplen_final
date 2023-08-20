@@ -101,6 +101,8 @@ for x in xcoord:
     xarray+=1
     asiento_parcial=0 # se reinicia el asiento a cero para el siguiente cálculo
 
+# calculo del asiento máximo
+asiento_max=min(asiento)
 
 # exportacion a una hoja excel de los cálculos realizados tensiones y asientos
 ft.guardar_xlsx_tensiones (xcoord,zcoord,tension_z,directorio,'Cal_Tension_z')
@@ -128,4 +130,4 @@ for tG in tipo_Grafica:
 ft.grafico_asientos(xcoord,asiento,directorio,'asientos')
 
 # emisión del informe de resultados
-ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico)
+ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico,asiento_max)
