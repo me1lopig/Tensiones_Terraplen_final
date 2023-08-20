@@ -37,7 +37,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import openpyxl
 from docx import Document
-from docx.shared import Cm
+from docx.shared import Cm, Pt
 import os
 from datetime import datetime
 
@@ -300,13 +300,13 @@ def resistencia_MC(cotas,valor_presion,cohesion,fi,z):
 
 
 
-def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos,tipo_calculo):
+def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico):
     # creación de un informe con los datos de entrada y los resultados en formato  .docx
     # 
     
     document = Document()
     # Añadimos un titulo al documento, a nivel 0
-    document.add_heading('Datos del modelo de cálculo', 0)
+    document.add_heading('Datos del modelo geométrico', 0)
     # Añadimos un párrafo
     p = document.add_paragraph('En este documento se incluyen los datos de la carga y características del terreno, ')
     p.add_run('Así como los resultados de las tensiones y asientos ')
@@ -314,15 +314,8 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freati
     #p.add_run(' o ')
     #p.add_run('itálica.').italic = True
     
-    # Para indicar subtitulo se indica el nivel 1
-    document.add_heading('Cálculos realizados ', level=1)
-    #document.add_paragraph('Los cálculos realizados son:')
-    document.add_paragraph('Tensiones totales en el terreno [kN/m2]', style='List Number')
-    document.add_paragraph('Tensiones efectivas en el terreno [kN/m2]', style='List Number')
-    document.add_paragraph('Incremento de tensiones en x [kN/m2]', style='List Number')
-    document.add_paragraph('Incremento de tensiones en xz [kN/m2]', style='List Number')
-    document.add_paragraph('Incremento de tensiones en z [kN/m2]', style='List Number')
-    document.add_paragraph('Asientos bajo el terraplén [cm]', style='List Number')
+    # Datos iniciales
+
 
     # Características del terraplén
     document.add_heading('Datos del terraplen ', level=1)
@@ -344,36 +337,62 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freati
     # Tabla de datos del terreno
     # a variar según se incrementa el numero de parámetros a tener en cuenta en los cálculos 
 
-    document.add_heading('Datos del terreno ', level=1)
-    #data = (('UG-01', 12), ('UG-02', 5), ('UG-03', 12))
-
-    # encabezado de la tabla
-    # se ponen los encabezados de los datos del archivo datos_terreno.xlsx
-    table = document.add_table(rows=1, cols=len(tipo_datos[0:11])) # definición de la tabla
-    # encabezados de la tabla de datos
-    for dato in np.arange(len(tipo_datos[0:11])):
-        table.rows[0].cells[dato].text = tipo_datos[dato]
+    # Añadimos un titulo al documento, a nivel 0
+    document.add_heading('Datos del modelo geotécnico ', 0)
     
-    
+    # Ruta del archivo Excel
+    excel_file = 'datos_terreno.xlsx'
+
+    # Abre el archivo Excel
+    workbook = openpyxl.load_workbook(excel_file)
+
+    # Selecciona la hoja de Excel
+    sheet = workbook['Hoja1']
+
+    # Crea un nuevo documento de Word
+    #doc = Document()
+
+    # Crea una tabla en el documento de Word
+    table = document.add_table(rows=0, cols=sheet.max_column)
+    table.autofit = False
+    # Establecer el tamaño de fuente para todas las celdas de la tabla
+    style = document.styles['Normal']
+    font = style.font
+    font.size = Pt(9)
 
 
-    
-    # Relleno de los elementos de la tabla 
-    #for prod, numbr in data:
-        #row_cells = table.add_row().cells
-        #row_cells[0].text = prod
-        #row_cells[1].text = str(num)
-  
-
- # Relleno de los elementos de la tabla 
-
-  
+    # Obtén los datos de Excel y añádelos a la tabla de Word
+    for row in sheet.iter_rows():
+        table_row = table.add_row().cells
+        for i, cell in enumerate(row):
+            table_row[i].text = str(cell.value)
 
 
+    # Ajusta el ancho de las celdas para que se adecuen al contenido
+    for column in table.columns:
+        for cell in column.cells:
+            cell.width=Cm(1.5)
 
+
+# introducimos dos retorno de carro después de la tabla
+
+    paragraph = document.add_paragraph("\n\n")
 
 # Añadimos un titulo al documento, a nivel 0
     document.add_heading('Resultados de los cálculos', 0)
+
+
+    document.add_heading('Cálculos realizados ', level=1)
+    #document.add_paragraph('Los cálculos realizados son:')
+    document.add_paragraph('Asientos bajo el terraplén [cm]', style='List Number')
+    document.add_paragraph('Tensiones efectivas en el terreno [kN/m2]', style='List Number')
+    document.add_paragraph('Tensiones totales en el terreno [kN/m2]', style='List Number')
+    document.add_paragraph('Incremento de tensiones en x [kN/m2]', style='List Number')
+    document.add_paragraph('Incremento de tensiones en z [kN/m2]', style='List Number')
+    document.add_paragraph('Incremento de tensiones en xz [kN/m2]', style='List Number')
+    
+
+    document.add_heading('Imágenes de los resultados ', level=1)
 
     # imágenes de resultados de los cálculos
     # se localizan las imágenes del directorio que sean *.png y se meten en unna lista
@@ -415,6 +434,8 @@ def guardar_xlsx_tensiones(xcoord,zcoord,array_datos,directorio,nombre_archivo):
 
     wb.save(directorio+'/'+nombre_archivo+'.xlsx')
     
+
+
 
 def guardar_xlsx_asientos(xcoord,array_datos,directorio,nombre_archivo):
     

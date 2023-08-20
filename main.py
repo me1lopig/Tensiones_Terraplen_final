@@ -135,5 +135,4 @@ for tG in tipo_Grafica:
 ft.grafico_asientos(xcoord,asiento,directorio,'asientos')
 
 # emisión del informe de resultados
-#ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,tipo_datos)
-ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,espesor,nivel_freatico,pe_seco,pe_saturado,E,poisson,cohesion,fi,cc,e0,tipo_datos,tipo_calculo)
+ft.guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico)
