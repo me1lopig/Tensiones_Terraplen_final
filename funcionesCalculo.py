@@ -174,9 +174,6 @@ def asiento_elastico(cotas,z,hi,E,poisson,tensionx,tensionz):
     # versión teniendo en cuenta el efecto tridimensional
     asiento=-hi*(tensionz-poisson[parametro_terreno(cotas,z)]*tensionx)/E[parametro_terreno(cotas,z)]
 
-    # teniendo en cuenta que no hay efecto tridimensional
-    #asiento=-hi*(tensionz)/E[parametro_terreno(cotas,z)]
-
     # se pone el valor negativo suponiendo el valor vertical hacia abajo
 
     return asiento
@@ -310,13 +307,8 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico):
     # Añadimos un párrafo
     p = document.add_paragraph('En este documento se incluyen los datos de la carga y características del terreno, ')
     p.add_run('Así como los resultados de las tensiones y asientos ')
-    #p.add_run('negrita').bold = True
-    #p.add_run(' o ')
-    #p.add_run('itálica.').italic = True
     
     # Datos iniciales
-
-
     # Características del terraplén
     document.add_heading('Datos del terraplen ', level=1)
     document.add_paragraph("Valor del ancho del derrame {0:0.2f} m".format(a), style='List Bullet')
@@ -383,7 +375,6 @@ def guardar_docx_datos(a,b,h,q,ax,incrx,az,incrz,directorio,nivel_freatico):
 
 
     document.add_heading('Cálculos realizados ', level=1)
-    #document.add_paragraph('Los cálculos realizados son:')
     document.add_paragraph('Asientos bajo el terraplén [cm]', style='List Number')
     document.add_paragraph('Tensiones efectivas en el terreno [kN/m2]', style='List Number')
     document.add_paragraph('Tensiones totales en el terreno [kN/m2]', style='List Number')

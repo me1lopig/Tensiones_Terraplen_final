@@ -95,12 +95,7 @@ for x in xcoord:
         if (tipoCalculo in ['c','C']):
             asiento_parcial+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
 
-        
-        # asiento elástico
-        #asiento_parcial+=ft.asiento_elastico(cotas,z,incrz,E,poisson,tensionx,tensionz)
-
-        # asiento por consolidación
-        #asiento_parcial_consolidacion+=ft.asiento_consolidacion(incrz,cc,e0,tension_z_ef,tensionz,cotas,x,z)
+    
 
     asiento.append(asiento_parcial)
     xarray+=1
@@ -113,7 +108,6 @@ ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_x,directorio,'Cal_Tension_x')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_xz,directorio,'Cal_Tension_xz')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Cal_Tension_Total_z')
 ft.guardar_xlsx_tensiones(xcoord,zcoord,tension_z_efectiva,directorio,'Cal_Tension_Efectiva_z')
-#ft.guardar_xlsx_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte')
 ft.guardar_xlsx_asientos(xcoord,asiento,directorio,'Cal_Asientos')
 
 
@@ -125,7 +119,6 @@ for tG in tipo_Grafica:
     ft.graficos_tensiones(xcoord,zcoord,tension_xz,directorio,'Tensión xz',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_z_terreno,directorio,'Tension Total_z',tG,a,b,h)
     ft.graficos_tensiones(xcoord,zcoord,tension_z_efectiva,directorio,'Tension Efectiva_z',tG,a,b,h)
-    #ft.graficos_tensiones(xcoord,zcoord,resistencia_corte,directorio,'Cal_Resistencia_corte',tG,a,b,h)
 
 
 # graficado de las tensiones naturales del terreno
