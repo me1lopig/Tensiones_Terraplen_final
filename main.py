@@ -39,8 +39,8 @@ xcoord=np.arange(-(ax+b),ax+b+incrx,incrx) # cubre los dos bordes del terraplén
 #zcoord=np.arange(0.0001,az+incrz,incrz)
 zcoord=np.arange(incrz,az+incrz,incrz)
 tension_z=np.zeros((zcoord.size,xcoord.size)) # incremento de tensión en z de la carga del terraplen
-tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x de la carga del terraple
-tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz de la carga del terraple
+tension_x=np.zeros((zcoord.size,xcoord.size)) # incrememnto de tensión en x de la carga del terraplen
+tension_xz=np.zeros((zcoord.size,xcoord.size)) # incremento de tension xz de la carga del terraplen
 tension_z_terreno=np.zeros((zcoord.size,xcoord.size)) # tension total inicial del terreno
 tension_z_efectiva=np.zeros((zcoord.size,xcoord.size)) # tension efectiva inicial del terreno
 #resistencia_corte=np.zeros((zcoord.size,xcoord.size)) # resistencia al corte del terreno
@@ -58,7 +58,7 @@ for x in xcoord:
     zarray=0
     for z in zcoord:
         # incrementos de tensiones provocados por la carga del terraplén
-        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones prodeucidas por el terraplen
+        tensionz,tensionx,tensionxz=ft.tension_terraplen(a,b,q,x+b,z) # incrementos de tensiones producidas por el terraplen
 
         # tensiones naturales del terreno verticales
         tension_z_0=ft.presion_total(cotas,nivel_freatico,pe_saturado,pe_seco,z) # tensión total
